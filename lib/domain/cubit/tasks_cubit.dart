@@ -39,9 +39,11 @@ class TasksCubit extends Cubit<TasksState> {
   }) async {
     final taskId = DateTime.now().toString();
 
-    final newTasks = state.tasks
+    final List<Task> newTasks = state.tasks
       ..toList()
-      ..insert(0, Task(id: taskId, text: text, topicId: topicId));
+      ..add(Task(id: taskId, text: text, topicId: topicId));
+
+    print(newTasks);
 
     emit(TasksState.success(tasks: newTasks, topics: state.topics));
   }

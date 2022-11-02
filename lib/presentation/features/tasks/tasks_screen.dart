@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todoshka/presentation/features/tasks/widgets/tasks_list.dart';
 
 import '../../../domain/cubit/tasks_cubit.dart';
-import '../../../domain/models/task.dart';
-import '../../../domain/models/topic.dart';
+import '../../widgets/dialogs.dart';
 
 class TasksScreen extends StatelessWidget {
   const TasksScreen({Key? key}) : super(key: key);
@@ -17,7 +17,7 @@ class TasksScreen extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () => _showBottomSheetForCreateNewTopic(context),
+            onPressed: () => showBottomSheetForCreateNewTopic(context),
             icon: const Icon(CupertinoIcons.add),
           )
         ],
@@ -46,50 +46,4 @@ class ContentBuilder extends StatelessWidget {
         return const Center(child: Text('Oops something went wrong!'));
     }
   }
-}
-
-class TasksList extends StatelessWidget {
-  final List<Topic> topics;
-  final List<Task> tasks;
-
-  const TasksList({
-    Key? key,
-    required this.topics,
-    required this.tasks,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        return ListTile(
-            leading: Checkbox(value: false, onChanged: (value) {}),
-            title: Text(topics[index].text));
-      },
-      itemCount: topics.length,
-    );
-  }
-}
-
-void _showBottomSheetForCreateNewTopic(BuildContext context) {
-  showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        final controller = TextEditingController();
-
-        return SizedBox(
-          height: 400,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: controller,
-                onEditingComplete: () {
-                  context.read<TasksCubit>().addTopic(controller.text);
-                  Navigator.pop(context);
-                },
-              )
-            ],
-          ),
-        );
-      });
 }
