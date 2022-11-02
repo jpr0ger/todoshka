@@ -22,7 +22,7 @@ void showBottomSheetForCreateNewTopic(BuildContext context) {
                 TextFormField(
                   autofocus: true,
                   controller: controller,
-                  maxLines: 3,
+                  maxLines: 2,
                   keyboardType: TextInputType.text,
                   onEditingComplete: () {
                     context.read<TasksCubit>().addTopic(controller.text);

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todoshka/presentation/features/tasks/widgets/app_title.dart';
 import 'package:todoshka/presentation/features/tasks/widgets/tasks_list.dart';
 
 import '../../../domain/cubit/tasks_cubit.dart';
@@ -13,7 +14,7 @@ class TasksScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TODOшка'),
+        title: const AppTitle(),
         centerTitle: true,
         actions: [
           IconButton(
@@ -22,13 +23,13 @@ class TasksScreen extends StatelessWidget {
           )
         ],
       ),
-      body: const ContentBuilder(),
+      body: const _ContentBuilder(),
     );
   }
 }
 
-class ContentBuilder extends StatelessWidget {
-  const ContentBuilder({
+class _ContentBuilder extends StatelessWidget {
+  const _ContentBuilder({
     Key? key,
   }) : super(key: key);
 

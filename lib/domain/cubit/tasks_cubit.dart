@@ -23,7 +23,7 @@ class TasksCubit extends Cubit<TasksState> {
   }
 
   Future<void> addTopic(String text) async {
-    final topicId = DateTime.now().toString();
+    final topicId = await tasksRepository.createTopic(text: text);
 
     final List<Topic> newTopics = [
       Topic(id: topicId, text: text),
@@ -37,13 +37,12 @@ class TasksCubit extends Cubit<TasksState> {
     required String text,
     required String topicId,
   }) async {
-    final taskId = DateTime.now().toString();
+    final taskId =
+        await tasksRepository.createTask(text: text, topicId: topicId);
 
     final List<Task> newTasks = state.tasks
       ..toList()
       ..add(Task(id: taskId, text: text, topicId: topicId));
-
-    print(newTasks);
 
     emit(TasksState.success(tasks: newTasks, topics: state.topics));
   }
@@ -51,12 +50,16 @@ class TasksCubit extends Cubit<TasksState> {
   Future<void> checkTask({
     required String taskId,
   }) async {
-    final newTasks = state.tasks.map((task) {
-      return task.id == taskId
-          ? task.copyWith(isCompleted: !task.isCompleted)
-          : task;
-    }).toList();
+    final result = await tasksRepository.checkTask(taskId);
 
-    emit(TasksState.success(tasks: newTasks, topics: state.topics));
+    if (result) {
+      final newTasks = state.tasks.map((task) {
+        return task.id == taskId
+            ? task.copyWith(isCompleted: !task.isCompleted)
+            : task;
+      }).toList();
+
+      emit(TasksState.success(tasks: newTasks, topics: state.topics));
+    }
   }
 }
