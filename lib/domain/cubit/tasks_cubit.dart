@@ -26,8 +26,8 @@ class TasksCubit extends Cubit<TasksState> {
     final topicId = await tasksRepository.createTopic(text: text);
 
     final List<Topic> newTopics = [
-      Topic(id: topicId, text: text),
       ...state.topics,
+      Topic(id: topicId, text: text),
     ];
 
     emit(TasksState.success(tasks: state.tasks, topics: newTopics));
@@ -60,6 +60,61 @@ class TasksCubit extends Cubit<TasksState> {
       }).toList();
 
       emit(TasksState.success(tasks: newTasks, topics: state.topics));
+    }
+  }
+
+  Future<void> removeTask({
+    required String taskId,
+  }) async {
+    final result = await tasksRepository.removeTask(taskId);
+
+    if (result) {
+      final newTasks = state.tasks.where((task) => task.id != taskId).toList();
+
+      emit(TasksState.success(tasks: newTasks, topics: state.topics));
+    }
+  }
+
+  Future<void> editTask({
+    required Task newTask,
+  }) async {
+    final result = await tasksRepository.editTask(newTask);
+
+    if (result) {
+      final newTasks = state.tasks.map((task) {
+        return task.id == newTask.id ? newTask : task;
+      }).toList();
+
+      emit(TasksState.success(tasks: newTasks, topics: state.topics));
+    }
+  }
+
+  Future<void> editTopic({
+    required Topic newTopic,
+  }) async {
+    final result = await tasksRepository.editTopic(newTopic);
+
+    if (result) {
+      final newTopics = state.topics.map((topic) {
+        return topic.id == newTopic.id ? newTopic : topic;
+      }).toList();
+
+      emit(TasksState.success(tasks: state.tasks, topics: newTopics));
+    }
+  }
+
+  Future<void> removeTopic({
+    required String topicId,
+  }) async {
+    final result = await tasksRepository.removeTopic(topicId);
+
+    if (result) {
+      final newTopics =
+          state.topics.where((topic) => topic.id != topicId).toList();
+      final newTasks =
+          state.tasks.where((task) => task.topicId != topicId).toList();
+
+      emit(TasksState.success(tasks: newTasks, topics: newTopics));
     }
   }
 }

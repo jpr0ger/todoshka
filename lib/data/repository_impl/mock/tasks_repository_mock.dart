@@ -30,4 +30,28 @@ class TasksRepositoryMock implements TasksRepository {
   Future<List<Topic>> getTopics() async {
     return [];
   }
+
+  @override
+  Future<bool> editTask(Task task) {
+    // TODO: implement editTask
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> removeTask(String id) {
+    // TODO: implement removeTask
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> editTopic(Topic topic) {
+    // TODO: implement editTopic
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> removeTopic(String id) {
+    // TODO: implement removeTopic
+    throw UnimplementedError();
+  }
 }

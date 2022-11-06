@@ -18,7 +18,7 @@ class TasksScreen extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () => showBottomSheetForCreateNewTopic(context),
+            onPressed: () => showCreateNewTopicDialog(context),
             icon: const Icon(CupertinoIcons.add),
           )
         ],

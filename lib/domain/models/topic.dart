@@ -13,4 +13,16 @@ class Topic extends Equatable {
 
   @override
   List<Object?> get props => [id, text, isCompleted];
+
+  Topic copyWith({
+    String? id,
+    String? text,
+    bool? isCompleted,
+  }) {
+    return Topic(
+      id: id ?? this.id,
+      text: text ?? this.text,
+      isCompleted: isCompleted ?? this.isCompleted,
+    );
+  }
 }

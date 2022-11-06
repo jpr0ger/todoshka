@@ -55,6 +55,36 @@ class TasksRepositoryHive implements TasksRepository {
   }
 
   @override
+  Future<bool> editTask(Task task) async {
+    final box = _hive.box<TaskDto>(tasksDB);
+
+    final taskDto = box.get(task.id);
+
+    if (taskDto != null) {
+      await box.put(task.id, TaskDto.fromModel(task));
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> removeTask(String id) async {
+    final box = _hive.box<TaskDto>(tasksDB);
+
+    final taskDto = box.get(id);
+
+    if (taskDto != null) {
+      await box.delete(id);
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
   Future<String> createTopic({required String text}) async {
     final box = _hive.box<TopicDto>(topicsDB);
 
@@ -63,5 +93,41 @@ class TasksRepositoryHive implements TasksRepository {
     await box.put(topicId, TopicDto(id: topicId, text: text));
 
     return topicId;
+  }
+
+  @override
+  Future<bool> editTopic(Topic topic) async {
+    final box = _hive.box<TopicDto>(topicsDB);
+
+    final topicDto = box.get(topic.id);
+
+    if (topicDto != null) {
+      await box.put(topic.id, TopicDto.fromModel(topic));
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> removeTopic(String id) async {
+    final topicsBox = _hive.box<TopicDto>(topicsDB);
+    final tasksBox = _hive.box<TaskDto>(tasksDB);
+
+    final topicDto = topicsBox.get(id);
+
+    final topicTasks =
+        tasksBox.values.where((element) => element.topicId == id).toList();
+    final tasksKeys = topicTasks.map((e) => e.id);
+
+    if (topicDto != null) {
+      await topicsBox.delete(id);
+      await tasksBox.deleteAll(tasksKeys);
+
+      return true;
+    } else {
+      return false;
+    }
   }
 }
