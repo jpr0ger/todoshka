@@ -1,7 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todoshka/data/repository_impl/hive/tasks_repository_hive.dart';
-import 'package:todoshka/domain/cubit/tasks_cubit.dart';
+import 'package:todoshka/domain/cubit/settings/settings_cubit.dart';
+import 'package:todoshka/domain/cubit/tasks/tasks_cubit.dart';
 import 'package:todoshka/domain/repositories/tasks_repository.dart';
 
 final sl = GetIt.instance;
@@ -9,6 +10,7 @@ final sl = GetIt.instance;
 Future<void> initSl() async {
   //BLOCS
   sl.registerSingleton(() => TasksCubit(sl()));
+  sl.registerSingleton(() => SettingsCubit());
 
   //Repositories
   sl.registerLazySingleton<TasksRepository>(() => TasksRepositoryHive(sl()));

@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:todoshka/domain/repositories/tasks_repository.dart';
 
-import '../models/task.dart';
-import '../models/topic.dart';
+import '../../models/task.dart';
+import '../../models/topic.dart';
 
 part 'tasks_state.dart';
 
@@ -115,6 +115,34 @@ class TasksCubit extends Cubit<TasksState> {
           state.tasks.where((task) => task.topicId != topicId).toList();
 
       emit(TasksState.success(tasks: newTasks, topics: newTopics));
+    }
+  }
+
+  Future<void> archiveTopic({
+    required String topicId,
+  }) async {
+    final result = await tasksRepository.archiveTopic(topicId);
+
+    if (result) {
+      final newTopics = state.topics.map((topic) {
+        return topic.id == topicId ? topic.copyWith(isArchived: true) : topic;
+      }).toList();
+
+      emit(TasksState.success(tasks: state.tasks, topics: newTopics));
+    }
+  }
+
+  Future<void> unarchiveTopic({
+    required String topicId,
+  }) async {
+    final result = await tasksRepository.unarchiveTopic(topicId);
+
+    if (result) {
+      final newTopics = state.topics.map((topic) {
+        return topic.id == topicId ? topic.copyWith(isArchived: false) : topic;
+      }).toList();
+
+      emit(TasksState.success(tasks: state.tasks, topics: newTopics));
     }
   }
 }

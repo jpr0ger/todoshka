@@ -130,4 +130,34 @@ class TasksRepositoryHive implements TasksRepository {
       return false;
     }
   }
+
+  @override
+  Future<bool> archiveTopic(String topicId) async {
+    final box = _hive.box<TopicDto>(topicsDB);
+
+    final topicDto = box.get(topicId);
+
+    if (topicDto != null) {
+      await box.put(topicId, topicDto.copyWith(isArchived: true));
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> unarchiveTopic(String topicId) async {
+    final box = _hive.box<TopicDto>(topicsDB);
+
+    final topicDto = box.get(topicId);
+
+    if (topicDto != null) {
+      await box.put(topicId, topicDto.copyWith(isArchived: false));
+
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

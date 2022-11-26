@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoshka/presentation/features/tasks/widgets/app_title.dart';
+import 'package:todoshka/presentation/features/tasks/widgets/archive_button_widget.dart';
 import 'package:todoshka/presentation/features/tasks/widgets/tasks_list.dart';
 
-import '../../../domain/cubit/tasks_cubit.dart';
+import '../../../domain/cubit/settings/settings_cubit.dart';
+import '../../../domain/cubit/tasks/tasks_cubit.dart';
 import '../../widgets/dialogs.dart';
 
 class TasksScreen extends StatelessWidget {
@@ -14,6 +16,7 @@ class TasksScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: const ArchiveButtonWidget(),
         title: const AppTitle(),
         centerTitle: true,
         actions: [
@@ -35,12 +38,18 @@ class _ContentBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<TasksCubit>().state;
-    switch (state.status) {
+    final tasksState = context.watch<TasksCubit>().state;
+    final settingsState = context.watch<SettingsCubit>().state;
+
+    final showArchived = settingsState.showArchivedTopics;
+
+    switch (tasksState.status) {
       case TasksStatus.failure:
         return const Center(child: Text('Oops something went wrong!'));
       case TasksStatus.success:
-        return TasksList(topics: state.topics, tasks: state.tasks);
+        return TasksList(
+            topics: tasksState.getSortedTopics(showArchived),
+            tasks: tasksState.tasks);
       case TasksStatus.loading:
         return const Center(child: CircularProgressIndicator());
       default:

@@ -54,4 +54,16 @@ class TasksRepositoryMock implements TasksRepository {
     // TODO: implement removeTopic
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> archiveTopic(String topicId) {
+    // TODO: implement archiveTopic
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> unarchiveTopic(String topicId) {
+    // TODO: implement unarchiveTopic
+    throw UnimplementedError();
+  }
 }

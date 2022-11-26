@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoshka/presentation/widgets/dialogs.dart';
 
-import '../../../../domain/cubit/tasks_cubit.dart';
+import '../../../../domain/cubit/tasks/tasks_cubit.dart';
 import '../../../../domain/models/task.dart';
 import '../../../../domain/models/topic.dart';
 
@@ -50,7 +50,11 @@ class _TopicWidgetState extends State<TopicWidget> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                 child: Text(widget.topic.text,
-                    style: const TextStyle(fontSize: 16)),
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: widget.topic.isArchived
+                            ? Colors.grey
+                            : Colors.black)),
               );
             },
             body: Padding(

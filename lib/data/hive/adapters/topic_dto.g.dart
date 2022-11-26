@@ -20,19 +20,22 @@ class TopicDtoAdapter extends TypeAdapter<TopicDto> {
       id: fields[0] as String,
       text: fields[1] as String,
       isCompleted: fields[2] as bool,
+      isArchived: fields[3] as bool?,
     );
   }
 
   @override
   void write(BinaryWriter writer, TopicDto obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.text)
       ..writeByte(2)
-      ..write(obj.isCompleted);
+      ..write(obj.isCompleted)
+      ..writeByte(3)
+      ..write(obj.isArchived);
   }
 
   @override

@@ -13,11 +13,14 @@ class TopicDto extends Equatable {
   final String text;
   @HiveField(2)
   final bool isCompleted;
+  @HiveField(3)
+  final bool? isArchived;
 
   const TopicDto({
     required this.id,
     required this.text,
     this.isCompleted = false,
+    this.isArchived = false,
   });
 
   @override
@@ -25,29 +28,34 @@ class TopicDto extends Equatable {
         id,
         text,
         isCompleted,
+        isArchived,
       ];
 
   factory TopicDto.fromModel(Topic topic) => TopicDto(
         id: topic.id,
         text: topic.text,
         isCompleted: topic.isCompleted,
+        isArchived: topic.isArchived,
       );
 
   Topic toModel() => Topic(
         id: id,
         text: text,
         isCompleted: isCompleted,
+        isArchived: isArchived ?? false,
       );
 
   TopicDto copyWith({
     String? id,
     String? text,
     bool? isCompleted,
+    bool? isArchived,
   }) {
     return TopicDto(
       id: id ?? this.id,
       text: text ?? this.text,
       isCompleted: isCompleted ?? this.isCompleted,
+      isArchived: isArchived ?? this.isArchived,
     );
   }
 }

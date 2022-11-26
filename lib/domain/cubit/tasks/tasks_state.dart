@@ -34,4 +34,17 @@ class TasksState extends Equatable {
           status: TasksStatus.failure,
           message: error,
         );
+
+  List<Topic> getSortedTopics(bool showArchived) {
+    List<Topic> resultTopics = [];
+
+    resultTopics.addAll(topics.where((element) => element.isArchived == false));
+
+    if (showArchived) {
+      resultTopics
+          .addAll(topics.where((element) => element.isArchived == true));
+    }
+
+    return resultTopics;
+  }
 }

@@ -10,9 +10,9 @@ abstract class TasksRepository {
     required String topicId,
   });
 
-  Future<bool> checkTask(String id);
+  Future<bool> checkTask(String taskId);
 
-  Future<bool> removeTask(String id);
+  Future<bool> removeTask(String taskId);
 
   Future<bool> editTask(Task task);
 
@@ -22,7 +22,11 @@ abstract class TasksRepository {
     required String text,
   });
 
-  Future<bool> removeTopic(String id);
+  Future<bool> removeTopic(String topicId);
 
   Future<bool> editTopic(Topic topic);
+
+  Future<bool> archiveTopic(String topicId);
+
+  Future<bool> unarchiveTopic(String topicId);
 }

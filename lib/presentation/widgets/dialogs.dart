@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/cubit/tasks_cubit.dart';
+import '../../domain/cubit/tasks/tasks_cubit.dart';
 import '../../domain/models/topic.dart';
 
 void showCreateNewTopicDialog(BuildContext context) {
@@ -81,6 +81,27 @@ void showEditTopicDialog({
               },
               child: const Text('Изменить'),
             ),
+            topic.isArchived
+                ? TextButton(
+                    onPressed: () {
+                      context
+                          .read<TasksCubit>()
+                          .unarchiveTopic(topicId: topic.id);
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Разархивировать',
+                        style: TextStyle(color: Colors.grey)),
+                  )
+                : TextButton(
+                    onPressed: () {
+                      context
+                          .read<TasksCubit>()
+                          .archiveTopic(topicId: topic.id);
+                      Navigator.pop(context);
+                    },
+                    child: const Text('В архив',
+                        style: TextStyle(color: Colors.grey)),
+                  ),
             TextButton(
               onPressed: () {
                 context.read<TasksCubit>().removeTopic(topicId: topic.id);
