@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../domain/cubit/settings/settings_cubit.dart';
+import '../../../../domain/cubit/settings/settings_bloc.dart';
 
 class ArchiveButtonWidget extends StatelessWidget {
   const ArchiveButtonWidget({
@@ -11,22 +11,17 @@ class ArchiveButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<SettingsCubit>().state;
+    final state = context.watch<SettingsBloc>().state;
 
     if (state.status == SettingsStatus.success) {
-      return state.showArchivedTopics
-          ? IconButton(
-              onPressed: () => () {
-                context.read<SettingsCubit>().changeShowArchived(false);
-              },
-              icon: const Icon(CupertinoIcons.archivebox_fill),
-            )
-          : IconButton(
-              onPressed: () => () {
-                context.read<SettingsCubit>().changeShowArchived(true);
-              },
-              icon: const Icon(CupertinoIcons.archivebox),
-            );
+      return IconButton(
+        onPressed: () {
+          context.read<SettingsBloc>().add(SettingsChangeShowArchived());
+        },
+        icon: state.showArchivedTopics
+            ? const Icon(CupertinoIcons.archivebox_fill)
+            : const Icon(CupertinoIcons.archivebox),
+      );
     } else {
       return Container();
     }

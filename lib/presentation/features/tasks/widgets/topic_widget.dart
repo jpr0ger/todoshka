@@ -70,7 +70,10 @@ class _TopicWidgetState extends State<TopicWidget> {
                               style: TextStyle(
                                   decoration: task.isCompleted
                                       ? TextDecoration.lineThrough
-                                      : null),
+                                      : null,
+                                  color: widget.topic.isArchived
+                                      ? Colors.grey
+                                      : Colors.black),
                             ),
                             value: task.isCompleted,
                             onChanged: (value) {
@@ -84,19 +87,20 @@ class _TopicWidgetState extends State<TopicWidget> {
                         ),
                       )
                       .toList(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                        child: IconButton(
-                          onPressed: () => showCreateNewTaskDialog(
-                              context: context, topicId: widget.topic.id),
-                          icon: const Icon(CupertinoIcons.add),
+                  if (!widget.topic.isArchived)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: IconButton(
+                            onPressed: () => showCreateNewTaskDialog(
+                                context: context, topicId: widget.topic.id),
+                            icon: const Icon(CupertinoIcons.add),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
                 ],
               ),
             ),

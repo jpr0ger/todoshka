@@ -5,7 +5,7 @@ import 'package:todoshka/presentation/features/tasks/widgets/app_title.dart';
 import 'package:todoshka/presentation/features/tasks/widgets/archive_button_widget.dart';
 import 'package:todoshka/presentation/features/tasks/widgets/tasks_list.dart';
 
-import '../../../domain/cubit/settings/settings_cubit.dart';
+import '../../../domain/cubit/settings/settings_bloc.dart';
 import '../../../domain/cubit/tasks/tasks_cubit.dart';
 import '../../widgets/dialogs.dart';
 
@@ -39,7 +39,7 @@ class _ContentBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tasksState = context.watch<TasksCubit>().state;
-    final settingsState = context.watch<SettingsCubit>().state;
+    final settingsState = context.watch<SettingsBloc>().state;
 
     final showArchived = settingsState.showArchivedTopics;
 
